@@ -1,0 +1,186 @@
+# depslib dependency file v1.0
+1743299558 source:c:\codeblock\project_game_sdl2\main.cpp
+	"main.h"
+
+1743233403 c:\codeblock\project_game_sdl2\common.h
+	<iostream>
+	<math.h>
+	<stdlib.h>
+	<cstring>
+	<string>
+	<vector>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_mixer.h>
+	<SDL2/SDL_ttf.h>
+	"def.h"
+	"Game_object.h"
+
+1743233276 c:\codeblock\project_game_sdl2\def.h
+
+1741930567 source:c:\codeblock\project_game_sdl2\baseobject.cpp
+	"BaseObject.h"
+
+1743231733 source:c:\codeblock\project_game_sdl2\background.cpp
+	"Background.h"
+
+1743234060 c:\codeblock\project_game_sdl2\background.h
+	"Common.h"
+
+1741709541 c:\codeblock\project_game_sdl2\baseobject.h
+	"Common.h"
+
+1741710320 source:c:\codeblock\project_game_sdl2\common.cpp
+	"Common.h"
+
+1743336283 source:c:\codeblock\project_game_sdl2\init.cpp
+	"init.h"
+	"Graphic.h"
+
+1742655373 c:\codeblock\project_game_sdl2\init.h
+	"Common.h"
+
+1743298187 c:\codeblock\project_game_sdl2\main.h
+	"Common.h"
+	"Menu.h"
+	"Graphic.h"
+	"Highscore.h"
+	<time.h>
+
+1741963688 source:c:\codeblock\project_game_sdl2\draw.cpp
+	"draw.h"
+
+1742052991 c:\codeblock\project_game_sdl2\draw.h
+	"Common.h"
+
+1742043141 c:\codeblock\project_game_sdl2\class.h
+	"Common.h"
+
+1742521293 source:c:\codeblock\project_game_sdl2\text.cpp
+
+1742485470 c:\codeblock\project_game_sdl2\text.h
+	"Common.h"
+
+1743332200 source:c:\codeblock\project_game_sdl2\menu.cpp
+	"Menu.h"
+	"Highscore.h"
+	"Graphic.h"
+
+1743294598 source:c:\codeblock\project_game_sdl2\input.cpp
+	"Common.h"
+	<algorithm>
+
+1742521444 source:c:\codeblock\project_game_sdl2\title.cpp
+	"title.h"
+
+1742521400 c:\codeblock\project_game_sdl2\title.h
+	"Common.h"
+	"graphic.h"
+
+1742348930 source:c:\codeblock\project_game_sdl2\util.cpp
+	"Common.h"
+
+1743337737 source:c:\codeblock\project_game_sdl2\stage.cpp
+	"Common.h"
+	"Stage.h"
+	"EnemyBullet.h"
+	"Highscore.h"
+
+1743299064 c:\codeblock\project_game_sdl2\stage.h
+	"Common.h"
+	"Animation.h"
+	"Graphic.h"
+	"PlayerBulletUpgrade.h"
+
+1743336162 source:c:\codeblock\project_game_sdl2\graphic.cpp
+	"Graphic.h"
+	"Highscore.h"
+
+1743336162 c:\codeblock\project_game_sdl2\graphic.h
+	"Common.h"
+	<unordered_map>
+
+1743337075 c:\codeblock\project_game_sdl2\game_object.h
+	"Animation.h"
+	"Common.h"
+
+1742463176 source:c:\codeblock\project_game_sdl2\sound.cpp
+	"Common.h"
+
+1742463176 c:\codeblock\project_game_sdl2\sound.cpp
+	"Common.h"
+
+1742374361 c:\codeblock\project_game_sdl2\init.cpp
+	"init.h"
+	"sound.cpp"
+
+1742654022 c:\codeblock\project_game_sdl2\exploision.h
+	"Common.h"
+
+1742560705 source:c:\codeblock\project_game_sdl2\exploision.cpp
+	"Exploision.h"
+
+1742548755 c:\codeblock\project_game_sdl2\sound.h
+	"Common.h"
+
+1743300085 c:\codeblock\project_game_sdl2\animation.h
+	<string>
+	<SDL2/SDL.h>
+	<iostream>
+
+1742566695 c:\codeblock\project_game_sdl2\player.h
+	"Common.h"
+	"Game_object.h"
+
+1743293962 source:c:\codeblock\project_game_sdl2\game_object.cpp
+	"Game_object.h"
+
+1742566695 source:c:\codeblock\project_game_sdl2\player.cpp
+	"player.h"
+
+1743331021 source:c:\codeblock\project_game_sdl2\animation.cpp
+	"Animation.h"
+
+1742726711 source:c:\codeblock\project_game_sdl2\playerpower.cpp
+
+1743262196 source:c:\codeblock\project_game_sdl2\playerbulletupgrade.cpp
+	"PlayerBulletUpgrade.h"
+	<SDL2/SDL.h>
+	<cmath>
+
+1743295130 c:\codeblock\project_game_sdl2\playerbulletupgrade.h
+	"Game_object.h"
+	<vector>
+
+1743330940 c:\codeblock\project_game_sdl2\menu.h
+	"Common.h"
+
+1742814228 source:c:\codeblock\project_game_sdl2\boss.cpp
+	"Boss.h"
+	"graphic.h"
+	<cstdlib>
+	<cmath>
+
+1742805677 c:\codeblock\project_game_sdl2\boss.h
+	"Game_object.h"
+	<SDL2/SDL.h>
+	<cmath>
+
+1742911596 source:c:\codeblock\project_game_sdl2\enemybullet.cpp
+	"EnemyBullet.h"
+	<SDL2/SDL.h>
+	<cmath>
+	"def.h"
+
+1742833444 c:\codeblock\project_game_sdl2\enemybullet.h
+	<vector>
+	"Game_object.h"
+
+1743337653 source:c:\codeblock\project_game_sdl2\highscore.cpp
+	"HighScore.h"
+
+1743339939 c:\codeblock\project_game_sdl2\highscore.h
+	"Common.h"
+	<fstream>
+	<algorithm>
+

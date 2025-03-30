@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Project_Game_SDL2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Project_Game_SDL2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Project_Game_SDL2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Animation.cpp" />
+		<Unit filename="Animation.h" />
+		<Unit filename="Background.cpp" />
+		<Unit filename="Background.h" />
+		<Unit filename="Common.h" />
+		<Unit filename="EnemyBullet.cpp" />
+		<Unit filename="EnemyBullet.h" />
+		<Unit filename="Game_object.cpp" />
+		<Unit filename="Game_object.h" />
+		<Unit filename="Graphic.cpp" />
+		<Unit filename="Graphic.h" />
+		<Unit filename="Highscore.cpp" />
+		<Unit filename="Highscore.h" />
+		<Unit filename="Menu.cpp" />
+		<Unit filename="Menu.h" />
+		<Unit filename="PlayerBulletUpgrade.cpp" />
+		<Unit filename="Stage.cpp" />
+		<Unit filename="Stage.h" />
+		<Unit filename="def.h" />
+		<Unit filename="init.cpp" />
+		<Unit filename="init.h" />
+		<Unit filename="input.cpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
