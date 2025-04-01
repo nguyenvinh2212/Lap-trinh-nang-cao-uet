@@ -21,7 +21,7 @@
 1741930567 source:c:\codeblock\project_game_sdl2\baseobject.cpp
 	"BaseObject.h"
 
-1743231733 source:c:\codeblock\project_game_sdl2\background.cpp
+1743433888 source:c:\codeblock\project_game_sdl2\background.cpp
 	"Background.h"
 
 1743234060 c:\codeblock\project_game_sdl2\background.h
@@ -80,7 +80,7 @@
 1742348930 source:c:\codeblock\project_game_sdl2\util.cpp
 	"Common.h"
 
-1743337737 source:c:\codeblock\project_game_sdl2\stage.cpp
+1743395793 source:c:\codeblock\project_game_sdl2\stage.cpp
 	"Common.h"
 	"Stage.h"
 	"EnemyBullet.h"
@@ -123,7 +123,7 @@
 1742548755 c:\codeblock\project_game_sdl2\sound.h
 	"Common.h"
 
-1743300085 c:\codeblock\project_game_sdl2\animation.h
+1743433809 c:\codeblock\project_game_sdl2\animation.h
 	<string>
 	<SDL2/SDL.h>
 	<iostream>
@@ -138,7 +138,7 @@
 1742566695 source:c:\codeblock\project_game_sdl2\player.cpp
 	"player.h"
 
-1743331021 source:c:\codeblock\project_game_sdl2\animation.cpp
+1743433720 source:c:\codeblock\project_game_sdl2\animation.cpp
 	"Animation.h"
 
 1742726711 source:c:\codeblock\project_game_sdl2\playerpower.cpp
@@ -166,7 +166,7 @@
 	<SDL2/SDL.h>
 	<cmath>
 
-1742911596 source:c:\codeblock\project_game_sdl2\enemybullet.cpp
+1743434065 source:c:\codeblock\project_game_sdl2\enemybullet.cpp
 	"EnemyBullet.h"
 	<SDL2/SDL.h>
 	<cmath>

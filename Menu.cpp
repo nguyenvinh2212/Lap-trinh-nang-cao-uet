@@ -14,7 +14,7 @@ extern TextRenderer* textManager;
 void menuOptions() {
     menu.switchToOptions();
 }
-
+// chuyển đổi giữa các menu
 void menuMain() {
     menu.switchToMain();
 }
@@ -26,10 +26,12 @@ void menuHighscore()
 {
     menu.switchToHighScores();
 }
+// vào game
 void startGame()
 {
     gameState = true;
 }
+// thoát game
 void exitGame() {
     app.running = false;
 }
@@ -65,9 +67,10 @@ void Menu::switchToHighScores()
     initHighScores();
     activeIndex = 0;
 }
+// constructor
 Menu::Menu() : activeIndex(0), active(true), title(nullptr), inOptionsMenu(false), inControlsMenu(false), inHighScoresMenu(false){}
 
-
+// load title
 void Menu::init() {
     active = true;
     activeIndex = 0;
@@ -365,12 +368,12 @@ void Menu::draw()
             int barW = 200;
             int barH = 20;
             int fillWidth = (barW * musicVolume) / 100;
-
+            // set thanh rect tăng giảm
             SDL_Rect fillRect = { barX, barY, fillWidth, barH };
             SDL_Rect frameRect = { barX, barY, barW, barH };
 
             if (i == activeIndex)
-                SDL_SetRenderDrawColor(app.renderer, 0, 255, 0, 255);
+                SDL_SetRenderDrawColor(app.renderer, 0, 255, 0, 255); // xanh
             else
                 SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255); // trắng
 

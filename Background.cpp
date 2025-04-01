@@ -9,13 +9,14 @@ void initBackground()
 {
     background = loadTexture( "Image/Backgound_level_1.png");
     background_Y = 0;
+    // set rand() thuộc tính của stars
     for(int i = 0; i < MAX_STARS; i++){
         stars[i].x = rand() % SCREEN_WIDTH;
         stars[i].y = rand() % SCREEN_HEIGHT;
         stars[i].speed = rand() % (MAX_SPEED_STARS - 1) +1;
     }
 }
-void doBackground() // cap nhat vi tri background
+void doBackground() // cap nhat vi tri background và stars
 {
     background_Y --;
     if( --background_Y < -SCREEN_HEIGHT)
@@ -27,7 +28,7 @@ void doBackground() // cap nhat vi tri background
         }
     }
 }
-
+// vẽ background ra màn hình
 void drawBackground()
 {
     SDL_Rect dest;

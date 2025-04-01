@@ -20,6 +20,10 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Linker>
+					<Add option="-O3" />
+					<Add option="-s" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>

@@ -12,13 +12,14 @@ Player::Player()
     reload = 8;
     dx = 0;
     dy = 0;
-    side = SIDE_PLAYER;
-    playerTail = new Animation("animation/Nairan - Frigate - Engine.png", app.renderer, 8, 32, 10, 58,30);
+    side = SIDE_PLAYER; // gán phe
+    playerTail = new Animation("animation/Nairan - Frigate - Engine.png", app.renderer, 8, 32, 10, 58,30); // đuôi lửa
     planet = new Animation("animation/Earth-Like planet.png", app.renderer, 60, 62, 64, 34, 100);
     hasShield = false;
     shieldTimer = 0;
     shieldAnimation = nullptr;
 }
+// destructor
 Player::~Player()
 {
     if(playerTail)
@@ -37,6 +38,7 @@ Player::~Player()
         shieldAnimation = nullptr;
     }
 }
+// updatet vị trí của player
 void Player::update()
 {
     x += dx;
@@ -55,7 +57,7 @@ void Player::update()
         }
     }
 }
-
+// giới hạn di chuyển
 void Player::clip()
 {
     if (x < 0) x = 0;
@@ -63,7 +65,7 @@ void Player::clip()
     if (x > SCREEN_WIDTH - w) x = SCREEN_WIDTH - w;
     if (y > SCREEN_HEIGHT - h) y = SCREEN_HEIGHT - h;
 }
-
+// kích hoạt khiên
 void Player::applyShield()
 {
     hasShield = true;
@@ -74,13 +76,14 @@ void Player::applyShield()
 }
 
 // Ennemy
-Enemy::Enemy(int i)
+Enemy::Enemy(int wave)
 {
     side = SIDE_ALIEN;
-    wave = i;
-    health = healthArr[i];
+    this->wave = wave;
+    health = healthArr[wave]; // lấy máu theo mỗi wave
     if(wave == 7 || wave == 14) reload = FPS;
     else reload = FPS * (4 + rand() % 3);
+    // load texture và cách đi cho từng wave
     switch (wave % 7 ) {
         case 1: // Đi ziczac ngang
             dx = (SDL_GetTicks() / 300 % 2 == 0) ? 1.5 : -1.5;
@@ -127,19 +130,20 @@ Enemy::Enemy(int i)
             break;
     }
 }
-
+// update vị trí và chuyển động khi va chạm
 void Enemy::update()
 {
-    if (x <= 0)
+    if (x <= 0) // chạm bên trái
     {
         dx=-dx;
         if(dx == 0 || dx < 0) x = 0 + rand() % 40;
     }
-    if (x >= SCREEN_WIDTH - w ) {
+    if (x >= SCREEN_WIDTH - w ) // chạm phải
+    {
         dx = -dx;
         if(dx == 0 || dx > 0) x = SCREEN_WIDTH - w - rand() % 40;
     }
-    if(wave %7 == 4 || wave % 7 == 5)
+    if(wave %7 == 4 || wave % 7 == 5) //wave boss
     {
         if(y >= SCREEN_HEIGHT - h/2)
         {

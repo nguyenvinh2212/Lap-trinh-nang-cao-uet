@@ -25,10 +25,8 @@ std::vector<Entity*> PlayerBulletUpgrade::fireBullet(SDL_Texture* bulletTexture,
     else if (bulletLevel == 5) numBullets = 5;
     else if (bulletLevel == 6) numBullets = 6;
     else if  (bulletLevel == 7) numBullets = 7;
-    float angleStep = 5;
-
-    float startAngle = -(numBullets - 1) * angleStep / 2;
-
+    float angleStep = 5; // góc giữa các bullet
+    float startAngle = -(numBullets - 1) * angleStep / 2; // vị trí góc bullet đầu tiên
     for (int i = 0; i < numBullets; i++)
     {
         // Góc của viên đạn thứ i

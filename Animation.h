@@ -5,6 +5,7 @@
 #include <iostream>
 extern SDL_Texture *loadTexture(const char *filename);
 extern void blitRect(SDL_Texture* texture, SDL_Rect* src, float x, float y);
+
 class Animation {
 public:
     Animation();
@@ -14,10 +15,12 @@ public:
     void update(Uint32 deltaTime);
     int getFrameWidth() const { return frameWidth; }
     void render(SDL_Renderer* renderer, float  x, float y);
+    // check finished
     bool Finished() const
     {
         return (!repeat && currentFrame == numFrames - 1);
     }
+    // reset
     void reset()
     {
         currentFrame = 0;
@@ -34,6 +37,6 @@ private:
     int gap;
     Uint32 timeSinceLastFrame;
     Uint32 frameDelay;
-    bool repeat;
+    bool repeat; // check animation có lặp lại không
 };
 #endif // Animation_h

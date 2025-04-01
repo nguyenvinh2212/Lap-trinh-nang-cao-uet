@@ -3,7 +3,7 @@
 #include "EnemyBullet.h"
 #include "Highscore.h"
 
-
+// khai báo các biến global
 static int highscore = 0;
 static SDL_Texture* bulletTexture = nullptr;
 static SDL_Texture* enemyTexture = nullptr;
@@ -24,7 +24,7 @@ Animation* BulletEnemyAnimation = nullptr;
 Animation* CoinsAnimation = nullptr;
 EnemyBullet enemyBullet;
 extern HighScoreManager* HighScore_Manager;
-void initStage()
+void initStage() // khởi tạo game
 {
     bulletTexture = loadTexture("Image/playerBullet.png");
     enemyTexture = loadTexture("Image/enemy1.png");
@@ -44,6 +44,7 @@ void initStage()
     BulletEnemyAnimation = new Animation("animation/bulletEnemy.png", app.renderer, 3, 16 ,16 ,3, 50, true);
     CoinsAnimation = new Animation("animation/CoinsAnimation.png", app.renderer, 8, 31, 32, 1, 50, true);
 }
+// reset game và thiết lập lại các giá trị ban đầu
 void Stage::reset()
 {
     for(Enemy* i : enemies) delete i;
@@ -69,19 +70,19 @@ void Stage::reset()
     enemiesRemainingInWave = 0;
     waveInProgress = false;
 }
-void Stage::initPlayer()
+void Stage::initPlayer() // khỏi tạo player
 {
     player = new Player();
 }
 void Stage::fireBullet()
 {
     std::vector<Entity*> bulletsToAdd = bulletUpgrade->fireBullet(bulletTexture, player);
-    for (Entity* b : bulletsToAdd) {
+    for (Entity* b : bulletsToAdd) { // lấy đạn từ vector theo cấp
         bullets.push_back(b);
     }
-    player->reload = 8;
+    player->reload = 8; // thời gian bắn giữa các viên đạn
 }
-void Stage::doPlayer()
+void Stage::doPlayer() // cập nhật vị trí player
 {
     if (!player) return;
     player->dx = player->dy = 0;
@@ -92,19 +93,19 @@ void Stage::doPlayer()
     if (app.keyboard[SDL_SCANCODE_RIGHT]) player->dx = PLAYER_SPEED;
     if (app.keyboard[SDL_SCANCODE_SPACE] && player->reload <= 0)
 		{
-			sound.playSound(SND_PLAYER_FIRE, CH_PLAYER);
+			sound.playSound(SND_PLAYER_FIRE, CH_PLAYER); // khi bắn bullet phát sound
 			fireBullet();
 		}
 }
-
+// bullet của enemy
 void Stage::fireAlienBullet(Enemy* e)
 {
     std::vector<Entity*> enemyBullets = enemyBullet.fireBullet(EnemyBulletTexture, e->wave, e->x, e->y, e->w, e->h);
-    if(wave == 7 || wave == 14) e->reload = rand() % FPS + 20;
+    if(wave == 7 || wave == 14) e->reload = rand() % FPS + 30; // thời gian reload của boss
     else e->reload = FPS*(3 + rand() % 2);
     for (Entity* b : enemyBullets) bullets.push_back(b);
 }
-void Stage::doFighters()
+void Stage::doFighters() // cập nhật và xóa player và enemy khi chết;
 {
     if (player) {
         player->update();
@@ -115,8 +116,8 @@ void Stage::doFighters()
             if (collision(player->x, player->y, player->w, player->h, e->x, e->y, e->w, e->h))
             {
                 addExplosions(player->x, player->y, 10);
-                if(!player->hasShield) player->health--;
-                e->health = 0;
+                if(!player->hasShield) player->health--; // nếu không có khiên thì trừ máu
+                e->health -- ;
             }
         }
     }
@@ -147,7 +148,7 @@ void Stage::doFighters()
 }
 
 
-void Stage::doBullets()
+void Stage::doBullets() // cập nhật đạn của enemy ( check va chạm với player)
 {
     for(int i = 0; i < (int)bullets.size(); i++)
     {
@@ -164,7 +165,7 @@ void Stage::doBullets()
         }
     }
 }
-bool Stage::checkBulletHit(Entity* b, Player* p)
+bool Stage::checkBulletHit(Entity* b, Player* p) // check va chạm giữa bullet và player , enemy
 {
     if(p)
     {
@@ -208,25 +209,28 @@ bool Stage::checkBulletHit(Entity* b, Player* p)
     }
     return false;
 }
-void Stage::spawnEnemies()
+void Stage::spawnEnemies() // spawn Enemy
 {
-    if (!waveInProgress) {
+    if (!waveInProgress) //nếu không trong đợt tấn công
+    {
         if (--waveDelayTimer <= 0) {
             waveInProgress = true;
-            if(wave == 7 || wave == 14)  enemiesRemainingInWave = 1;
-            else enemiesRemainingInWave = wave + 2 + rand()%5;
+            if(wave == 7 || wave == 14)  enemiesRemainingInWave = 1; // nếu wave boss
+            else enemiesRemainingInWave = wave + 4 + rand()%5; // số lượng tăng theo wave
             enemySpawnTimer = 0;
         }
     }
-    if (wave >= 15 ) victory = true;
-    if (waveInProgress) {
+    if (wave >= 15 ) victory = true; // qua 14 wave thì thắng
+
+    if (waveInProgress)  // trong đợt tấn công spawn enemy
+    {
         if (--enemySpawnTimer <= 0 && enemiesRemainingInWave > 0) {
             int x_start = rand() % (SCREEN_WIDTH - 100) + 60;
             int temp = 1 + rand() % enemiesRemainingInWave;
             for(int i = 0; i < temp; i++)
             {
                 int x = x_start + i * 70;
-                int y = -50;
+                int y = -50; // vị trí ban đầu
                 if (x > SCREEN_WIDTH - 60) x -= SCREEN_WIDTH;
                 Enemy* e = new Enemy(wave);
                 if (x < 20) x += rand()%50 + 20;
@@ -237,6 +241,7 @@ void Stage::spawnEnemies()
             }
              enemySpawnTimer = 30 + (rand() % FPS);
         }
+        // nếu không còn enemy kết thúc wave chuyển sang wave mới
         if (enemiesRemainingInWave <= 0) {
 
             if (enemies.size() <= 0) {
@@ -247,14 +252,14 @@ void Stage::spawnEnemies()
         }
     }
 }
-
+// hiệu ứng nổ
 void Stage::doExplosions()
 {
     for (int i = 0; i < (int)explosions.size(); i++)
     {
         Explosion* e = explosions[i];
         e->update();
-        if(e->a <= 0)
+        if(e->a <= 0) // độ mờ
         {
             delete e;
             std::swap(explosions[i], explosions.back());
@@ -263,6 +268,7 @@ void Stage::doExplosions()
         }
     }
 }
+// mảnh vỡ khi enemy bị tiêu diệt
 void Stage::doDebris()
 {
     for(int i = 0; i <(int)debris.size(); i++)
@@ -278,11 +284,13 @@ void Stage::doDebris()
         }
     }
 }
+// cập nhật các power up xuất hiện trên màn hình
 void Stage::doPowerUp()
 {
     for(int i = 0; i < (int)PowerUp.size(); i++)
     {
         Entity* e = PowerUp[i];
+        // kiểm tra va chạm nếu chạm cạnh màn hình thì đổi hướng
         if(e->x < 0)
         {
             e->x = 0; e->dx = -e->dx;
@@ -303,8 +311,11 @@ void Stage::doPowerUp()
             e->dy = -e->dy /2 ;
         }
         e->update();
-        if(e->texture == pointsTexture) CoinsAnimation->update(deltaTime);
-        e->reload --;
+        // nếu là coin cập nhật animation
+        if(e->texture == pointsTexture)
+            CoinsAnimation->update(deltaTime);
+        e->reload --; // giảm thời gian reload
+        // kiểm tra va chạm với người chơi
         if (player && collision(e->x, e->y, e->w, e->h, player->x, player->y, player->w, player->h))
         {
             e->health = 0;
@@ -314,19 +325,19 @@ void Stage::doPowerUp()
                     stage.coint+= 100;
                     sound.playSound(SND_POINTS, CH_POINTS);
                     break;
-                case POWERUP_BULLET:
+                case POWERUP_BULLET: // tăng đạn
                     if (bulletUpgrade) {
                         bulletUpgrade->increaseBulletLevel();
                     }
                     sound.playSound(SND_POINTS, CH_POINTS);
                     break;
-                case POWERUP_SHIELD:
+                case POWERUP_SHIELD: // khiên
                     if (player) {
                         player->applyShield();
                     }
                     sound.playSound(SND_POINTS, CH_POINTS);
                     break;
-                case POWERUP_LIFE:
+                case POWERUP_LIFE: // tăng health tối đa 4
                     if (player->health < 4) {
                         player->health++;
                         sound.playSound(SND_POINTS, CH_POINTS);
@@ -334,6 +345,7 @@ void Stage::doPowerUp()
                     break;
             }
         }
+        // nếu hết reload hoặc đã được nhặt xóa
         if(e->health <= 0 || e->reload <=0 )
         {
             delete e;
@@ -343,31 +355,35 @@ void Stage::doPowerUp()
         }
     }
 }
+// thêm explosion
 void Stage::addExplosions(int x, int y, int num)
 {
     for(int i = 0; i < num; i++)
     {
         Explosion* e = new Explosion();
+        // rand xung quanh
         e->x = x + rand() % 32 - rand() % 32 ;
         e->y = y +rand() % 32 - rand()%32;
         e->dx = (rand()%10 - rand()%10) / 10.0;
-        switch (rand()% 4)
+        switch (rand()% 4) // rand màu
         {
             case 0: e-> r = 255;  break;
             case 1: e->r = 255; e->g = 128; break;
             case 2: e->r = 128; e->g =128; e->b = 128; break;
             default: e->r =255; e->g =255; e->b =255; break;
         }
-        e->a = rand() % (FPS);
+        e->a = rand() % (FPS); // độ mò
         explosions.push_back(e);
     }
 }
+// thêm mảnh vỡ
 void Stage::addDebris(Enemy* e)
 {
     int w = e->w / 4;
     int h = e->h / 4;
     if(w == 0 || h ==0 ) return ;
-    for (int i = 0; i<= h; i +=h)
+    // tạo mảnh vờ từ enemy
+    for (int i = 0; i< h; i +=h)
     {
         for(int j =0; j <= w; j+=w)
         {
@@ -386,10 +402,12 @@ void Stage::addDebris(Enemy* e)
         }
     }
 }
+// thêm power up
 void Stage::addPowerUp(int x, int y, int type)
 {
     Entity* e = new Entity(x, y, rand()%7-rand()%7, 3+rand()%3, 1, pointsTexture);
     e->powerupType = type;
+    // load texture từng loại
     switch (type)
     {
         case POWERUP_COIN:
@@ -409,17 +427,16 @@ void Stage::addPowerUp(int x, int y, int type)
     SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
     e->x -= e->w /2;
     e->y -= e->h /2;
-    e->reload = FPS * 6;
+    e->reload = FPS * 7; // thời gian tồn tại
     PowerUp.push_back(e);
 }
 
-
+// hàm logic của stage trong mỗi khung hình
 void Stage::logic()
 {
-
     doBackground();
     if (player == nullptr) gameOver = true;
-    if(victory || gameOver)
+    if(victory || gameOver)         // khi chiến thắng hoặc thua hiện menu lựa chọn chơi hoặc không
     {
         HighScore_Manager->addScore(score);
         if (app.keyboard[SDL_SCANCODE_LEFT])
@@ -451,18 +468,18 @@ void Stage::logic()
     doPowerUp();
     spawnEnemies();
 }
-
+// vẽ các thành phần lên màn hình
 void Stage::draw()
 {
     drawBackground();
-    if (victory)
+    if (victory) // nếu thắng màn hình victory
     {
         SDL_Rect rect;
         SDL_QueryTexture(victoryTexture, NULL, NULL, &rect.w, &rect.h);
         rect.x = (SCREEN_WIDTH - rect.w) / 2;
         rect.y = (SCREEN_HEIGHT - rect.h) / 2 - 50;
         SDL_RenderCopy(app.renderer, victoryTexture, NULL, &rect);
-
+        // màu chữ khi chọn
         SDL_Color yesColor = {255, 255, 255, 255};
         SDL_Color noColor  = {255, 255, 255, 255};
         if (menuChoice == 1) yesColor = {255, 0, 0, 255};
@@ -474,6 +491,7 @@ void Stage::draw()
         textManager->drawText("NO",  SCREEN_WIDTH/2 + 100, yOption, noColor.r, noColor.g, noColor.b, TEXT_CENTER);
         return;
     }
+    // nếu thua hiện gameover
     if (gameOver)
     {
         SDL_Rect rect;
@@ -495,6 +513,7 @@ void Stage::draw()
         textManager->drawText("NO",  SCREEN_WIDTH/2 + 100, yOption, noColor.r, noColor.g, noColor.b, TEXT_CENTER);
         return;
     }
+    // vẽ power up
     for(int i = 0; i < (int)PowerUp.size(); i++)
     {
         Entity* e = PowerUp[i];
@@ -504,10 +523,11 @@ void Stage::draw()
 			else blit(e->texture, e->x, e->y);
 		}
     }
-
+    // vẽ player và các hiệu ứng liên quan
     if(player) {
         if(planet_y > SCREEN_HEIGHT) planet_y-=SCREEN_HEIGHT;
         player->planet->render(app.renderer,50 , planet_y);
+
         blit(player->texture, player->x, player->y);
 
         if(player->playerTail)
@@ -516,32 +536,35 @@ void Stage::draw()
             int tailY = player->y + player->h- 3 ;
             player->playerTail->render(app.renderer, tailX, tailY);
         }
-        if (player->hasShield && player->shieldAnimation) {
+        if (player->hasShield && player->shieldAnimation) { // khi có khiên
             float shieldX = player->x ;
             float shieldY = player->y ;
             player->shieldAnimation->render(app.renderer, shieldX, shieldY);
         }
     }
-
+    // vẽ enemy
     for(int i = 0; i<(int)enemies.size(); i++)
     {
         Enemy* e = enemies[i];
         blit(e->texture, e->x, e->y);
     }
+    // vẽ debris
     for(int i = 0; i <(int)debris.size(); i++)
     {
         Debris* d = debris[i];
         blitRect(d->texture, &d->rect, d->x, d->y);
     }
+    // vẽ bullet
     for(int i = 0; i <(int)bullets.size(); i++)
     {
         Entity* e = bullets[i];
         if(e->side == SIDE_ALIEN)
         {
-            BulletEnemyAnimation->render(app.renderer, e->x, e->y);
+            BulletEnemyAnimation->render(app.renderer, e->x, e->y); // animation bullet enemy
         }
         else  blit(e->texture, e->x, e->y);
     }
+    // chế độ trộn màu ( cộng màu)
     SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_ADD);
 	SDL_SetTextureBlendMode(explosionTexture, SDL_BLENDMODE_ADD);
     for(int i = 0; i < (int)explosions.size(); i++)
@@ -552,21 +575,26 @@ void Stage::draw()
 		blit(explosionTexture, e->x, e->y);
     }
     SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_NONE);
+
+    // vẽ các thông tin game lên màn hình
     textManager->setFontSize(30);
     textManager->drawText("SCORE: "+ std::to_string(stage.score),SCREEN_WIDTH-10, 20, 255, 255, 255, TEXT_RIGHT);
     textManager->drawText( "WAVE: " + std::to_string(stage.wave),10, 20, 255, 255, 255, TEXT_LEFT);
     textManager->drawText("HIGHSCORE: "+ std::to_string(highscore),SCREEN_WIDTH - 10, 0, 0, 255, 0,TEXT_RIGHT);
     textManager->drawText("COIN: " + std::to_string(stage.coint), 10, 0, 255, 255, 255, TEXT_LEFT);
+    // nếu player còn sống
     if(player)
     {
-      for (int i = 0; i < player->health; i++) {
+        for (int i = 0; i < player->health; i++)  // vẽ mạng
+        {
             SDL_Rect heartRect = { 10 + i * (13 + 10), 50, 13, 13 };
             SDL_RenderCopy(app.renderer, lifeTexture, NULL, &heartRect);
         }
-        if(player->hasShield)
+        if(player->hasShield) // khi có khiên vẽ thời gian hồi khiên
             textManager->drawText("Time Shield: " + std::to_string((int)player->shieldTimer), 10, 60, 150, 150, 180, TEXT_LEFT);
     }
 }
+// Hàm giải phóng bộ nhớ các đối tượng của stage khi kết thúc game
 void cleanupStage() {
     if(stage.player)
     {

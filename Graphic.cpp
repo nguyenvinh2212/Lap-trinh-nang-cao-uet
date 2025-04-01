@@ -1,10 +1,14 @@
 
 #include "Graphic.h"
 #include "Highscore.h"
+
+// Map texture toàn cục: ánh xạ tên file texture tới con trỏ SDL_Texture tương ứng
 std::unordered_map<std::string, SDL_Texture*> textureCache;
+
 extern void cleanupStage();
 extern HighScoreManager* HighScore_Manager;
 extern TextRenderer* textManager;
+
 int soundVolume = 100;
 int musicVolume = 100;
 
@@ -65,18 +69,18 @@ void close()
     IMG_Quit();
     SDL_Quit();
 }
-
+// xóa màn hình
 void prepareScene()
 {
 	SDL_SetRenderDrawColor(app.renderer, 32, 32, 32, 255);
 	SDL_RenderClear(app.renderer);
 }
-
+// cập nhật màn hình
 void presentScene()
 {
 	SDL_RenderPresent(app.renderer);
 }
-
+// vẽ texture
 void blit(SDL_Texture* texture, int x, int y)
 {
 	SDL_Rect dest;
@@ -85,7 +89,7 @@ void blit(SDL_Texture* texture, int x, int y)
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 	SDL_RenderCopy(app.renderer, texture, NULL, &dest);
 }
-
+// vẽ texture với rect
 void blitRect(SDL_Texture *texture, SDL_Rect *src, float x, float y)
 {
 	SDL_Rect dest;
@@ -96,7 +100,7 @@ void blitRect(SDL_Texture *texture, SDL_Rect *src, float x, float y)
 	SDL_RenderCopy(app.renderer, texture, src, &dest);
 }
 
-// Text
+// Class Text
 TextRenderer::TextRenderer(const std::string& fontPath, int fontsize)
 {
     if(TTF_Init() == -1) logErrorAndExit("Failed to init SDL_ttf", TTF_GetError());
@@ -104,9 +108,10 @@ TextRenderer::TextRenderer(const std::string& fontPath, int fontsize)
     font = TTF_OpenFont(fontPath.c_str(), fontsize);
     if(!font) logErrorAndExit("Failed to load font",TTF_GetError());
 }
+// drawtext
 void TextRenderer::drawText(const std::string& text, int x, int y, int r, int g, int b, int align)
 {
-    SDL_Color color = {Uint8(r), Uint8(g), Uint8(b), 255};
+    SDL_Color color = {Uint8(r), Uint8(g), Uint8(b), 255}; // set màu
     SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
     if(textSurface == nullptr){
         logErrorAndExit("Failed to create text surface", TTF_GetError());
@@ -118,18 +123,18 @@ void TextRenderer::drawText(const std::string& text, int x, int y, int r, int g,
         logErrorAndExit("Failed to create text texture", SDL_GetError());
         return;
     }
-    SDL_FreeSurface(textSurface);
+    SDL_FreeSurface(textSurface);           // giải phóng surface
     int textW, textH;
     SDL_QueryTexture(textTexture, nullptr, nullptr, &textW, &textH);
-    if (align == TEXT_CENTER)
+    if (align == TEXT_CENTER) // căn giữa
         x -= textW / 2;
-    else if (align == TEXT_RIGHT)
+    else if (align == TEXT_RIGHT) // căn phải
         x -= textW;
-    SDL_Rect textRect = {x, y, textW, textH};
+    SDL_Rect textRect = {x, y, textW, textH}; // set text
     SDL_RenderCopy(app.renderer, textTexture, nullptr, &textRect);
     SDL_DestroyTexture(textTexture);
 }
-
+// set lại font
 void TextRenderer::setFontSize(int fontsize)
 {
 
@@ -139,24 +144,24 @@ void TextRenderer::setFontSize(int fontsize)
 }
 
 
-//  Sound
+//  Class Sound
 SoundManager::SoundManager() : music(nullptr) {
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         std::cerr << "SDL_mixer could not initialize! Error: " << Mix_GetError() << std::endl;
         return;
     }
-    sounds.resize(SND_MAX, nullptr);
+    sounds.resize(SND_MAX, nullptr); // resize
     loadSounds();
 }
 
 SoundManager::~SoundManager() {
     for (auto sound : sounds) {
-        if (sound) Mix_FreeChunk(sound);
+        if (sound) Mix_FreeChunk(sound); // giải phóng âm thanh đã load
     }
     if (music) Mix_FreeMusic(music);
-    Mix_CloseAudio();
+    Mix_CloseAudio();                   // đóng hệ thống âm thanh
 }
-
+// load nhạc
 void SoundManager::loadMusic(const std::string& filename) {
     if (music) {
         Mix_HaltMusic();
@@ -168,19 +173,19 @@ void SoundManager::loadMusic(const std::string& filename) {
         std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
     }
 }
-
+// phát music với tùy chọn lặp lại
 void SoundManager::playMusic(bool loop) {
     if (music) {
         Mix_PlayMusic(music, loop ? -1 : 0);
     }
 }
-
+// phát âm thanh theo id và kênh
 void SoundManager::playSound(int id, int channel) {
     if (id >= 0 && id < (int)sounds.size() && sounds[id]) {
         Mix_PlayChannel(channel, sounds[id], 0);
     }
 }
-
+// load sound vào vector
 void SoundManager::loadSounds() {
     std::vector<std::string> soundFiles = {
         "sound/334227__jradcoolness__laser.ogg",

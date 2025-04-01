@@ -29,9 +29,9 @@ int main(int argc, char* argv[])
         Mix_Volume(-1, MIX_MAX_VOLUME * soundVolume / 100);
         Mix_VolumeMusic(MIX_MAX_VOLUME * musicVolume / 100);
 
-        if (gameState)
+        if (gameState) // game dùng
         {
-            if (pauseGame)
+            if (pauseGame) // khi pause game hiển thị continue với back to menu
             {
                 if (app.keyboard[SDL_SCANCODE_LEFT])
                 {
@@ -99,12 +99,11 @@ int main(int argc, char* argv[])
             presentScene();
         }
 
-        // Giới hạn FPS (ví dụ 60 FPS)
+        // Giới hạn FPS
         Uint32 frameTime = SDL_GetTicks() - currentTime;
         if (frameTime < 1000 / 60)
             SDL_Delay(1000 / 60 - frameTime);
     }
-
     close();
     return 0;
 }

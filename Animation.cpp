@@ -1,4 +1,5 @@
 #include "Animation.h"
+// constructor
 Animation::Animation(){};
 Animation::Animation(const std::string& texturePath, SDL_Renderer* renderer,int numFrames,
                      int frameWidth, int frameHeight, float gap, Uint32 frameDelay, bool repeat)
@@ -8,6 +9,7 @@ Animation::Animation(const std::string& texturePath, SDL_Renderer* renderer,int 
 {
 
     texture = loadTexture(texturePath.c_str());
+    // tạo mảng lưu thông số của frame
     frameClips = new SDL_Rect[numFrames];
     for (int i = 0; i < numFrames; i++) {
         float xPos = i * (frameWidth + gap);
@@ -18,13 +20,14 @@ Animation::Animation(const std::string& texturePath, SDL_Renderer* renderer,int 
         frameClips[i].h = frameHeight;
     }
 }
-
+// destructor
 Animation::~Animation() {
     if (frameClips) {
         delete[] frameClips;
         frameClips = nullptr;
     }
 }
+// hàm update cập nhật frame
 void Animation::update(Uint32 deltaTime) {
     timeSinceLastFrame += deltaTime;
     if (timeSinceLastFrame >= frameDelay) {
@@ -40,6 +43,7 @@ void Animation::update(Uint32 deltaTime) {
         }
     }
 }
+// vẽ animation ra màn hình
 void Animation::render(SDL_Renderer* renderer, float x, float y) {
     blitRect(texture, &frameClips[currentFrame], x, y);
 }

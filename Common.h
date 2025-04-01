@@ -21,7 +21,6 @@ struct App  // đại diện cho ứng dụng game
     SDL_Renderer* renderer;
     SDL_Window* window;
     int keyboard[MAX_KEYBOARD_KEYS];
-    char inputText[MAX_LINE_LENGTH];
     bool running = true;
 };
 SDL_Texture *loadTexture(const char *filename);
