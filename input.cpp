@@ -7,7 +7,6 @@
 void doInput()
 {
     SDL_Event event;
-    std::fill(std::begin(app.inputText), std::end(app.inputText), '\0'); // xóa
     while (SDL_PollEvent(&event)) // lấy hết sự kiện hiện có ở hàng đợi
     {
         switch (event.type)

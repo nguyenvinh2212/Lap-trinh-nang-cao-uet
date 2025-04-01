@@ -6,7 +6,7 @@
 
 extern void cleanupStage();
 extern Uint32 deltaTime;
-class Entity
+class Entity // lớp cơ sở
 {
 public :
     float x, y, dx, dy, time;
@@ -21,7 +21,7 @@ public :
 };
 
 
-class Player : public Entity
+class Player : public Entity // Lớp player kế thừa Entity
 {
 public:
     int reload;
@@ -33,16 +33,16 @@ public:
     Animation* playerTail = nullptr ;
     Player();
     ~Player();
-    virtual void update();
-    void clip();
-    void applyShield();
+    virtual void update();  // Ghi đè hàm update
+    void clip();            // giới hạn chuyển động
+    void applyShield();     // Hàm để áp dụng hiệu ứng khiên
 };
 
 
 class Explosion : public Entity
 {
 public :
-    int a, r, g, b;
+    int a, r, g, b;             // Giá trị alpha, màu cho explosion
     virtual void update() override {a--;}
 
 };
@@ -61,13 +61,13 @@ class Enemy : public Entity
 public :
     SDL_Texture* enemyTexture = loadTexture("Image/enemy1.png");
     int wave;
-    int healthArr[15] = {1, 2, 2, 3, 3, 4, 4, 20, 5, 5, 5, 6, 6, 6 ,40};
+    int healthArr[15] = {1, 2, 2, 3, 3, 4, 4, 25, 5, 5, 5, 6, 6, 6 ,50}; // Mảng giá trị máu của kẻ địch
     Enemy(int i = 1);
     virtual void update() override;
 };
 
 
-class Stage
+class Stage //quản lý trạng thái trò chơi
 {
 public:
     int score , wave = 7, coint  ;
@@ -84,23 +84,23 @@ public:
     std::vector<Enemy*> enemies;
     Stage(){}
     ~Stage(){cleanupStage();};
-    void reset();
-    void initPlayer();
-    void fireBullet();
-    void doPlayer();
-    void fireAlienBullet(Enemy *e);
-    void doFighters();
-    void doBullets();
-    bool checkBulletHit(Entity* e = nullptr, Player* p = nullptr);
-    void spawnEnemies();
-    void doExplosions();
-    void doDebris();
-    void doPowerUp();
-    void addExplosions(int x, int y, int num);
-    void addDebris(Enemy* e);
-    void addPowerUp(int x, int y, int type);
-    void logic();
-    void draw();
+    void reset();               // Hàm để đặt lại màn chơi
+    void initPlayer();          // Hàm để khởi tạo người chơi
+    void fireBullet();          // Hàm để bắn đạn của người chơi
+    void doPlayer();            // Hàm để cập nhật logic của người chơi
+    void fireAlienBullet(Enemy* e); // Hàm để bắn đạn của kẻ địch
+    void doFighters();          // Hàm để cập nhật logic của kẻ địch
+    void doBullets();           // Hàm để cập nhật logic của đạn
+    bool checkBulletHit(Entity* e = nullptr, Player* p = nullptr); // Hàm để kiểm tra va chạm đạn
+    void spawnEnemies();        // Hàm để spawn kẻ địch
+    void doExplosions();        // Hàm để cập nhật logic của vụ nổ
+    void doDebris();            // Hàm để cập nhật logic của mảnh vỡ
+    void doPowerUp();           // Hàm để cập nhật logic của power-up
+    void addExplosions(int x, int y, int num); // Hàm để thêm vụ nổ
+    void addDebris(Enemy* e);   // Hàm để thêm mảnh vỡ
+    void addPowerUp(int x, int y, int type); // Hàm để thêm power-up
+    void logic();               // Hàm để xử lý logic game
+    void draw();                // Hàm để vẽ các thành phần game
 };
 
 
