@@ -70,7 +70,7 @@ public :
 class Stage //quản lý trạng thái trò chơi
 {
 public:
-    int score , wave = 7, coint  ;
+    int score , wave = 7, coint ;
     int enemySpawnTimer = 0;
     int StageRestTimer = FPS *3;
     Player* player = nullptr;

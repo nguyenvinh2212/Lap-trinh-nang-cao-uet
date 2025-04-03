@@ -11,8 +11,9 @@ public:
     void saveHighScores();
     void addScore(int score);
     const std::vector<int>& getHighScores() const { return highScores; }
-
+    int getMaxScore() {return ScoreMax;}
 private:
+    int ScoreMax ;
     std::string fileName;
     std::vector<int> highScores;
 };

@@ -15,6 +15,7 @@ HighScoreManager::HighScoreManager(const std::string& filename): fileName(filena
     }
     while (highScores.size() < 5) // nếu không đủ 5 thêm 0 vào
         highScores.push_back(0);
+    ScoreMax = highScores[0];
 }
 // destructor, lưu lại điểm khi bị hủy
 HighScoreManager::~HighScoreManager()

@@ -3,8 +3,10 @@
 #include "EnemyBullet.h"
 #include "Highscore.h"
 
+extern HighScoreManager* HighScore_Manager;
+
 // khai báo các biến global
-static int highscore = 0;
+static int highscore  ;
 static SDL_Texture* bulletTexture = nullptr;
 static SDL_Texture* enemyTexture = nullptr;
 static SDL_Texture* EnemyBulletTexture =nullptr ;
@@ -23,7 +25,7 @@ PlayerBulletUpgrade* bulletUpgrade = new PlayerBulletUpgrade();
 Animation* BulletEnemyAnimation = nullptr;
 Animation* CoinsAnimation = nullptr;
 EnemyBullet enemyBullet;
-extern HighScoreManager* HighScore_Manager;
+
 void initStage() // khởi tạo game
 {
     bulletTexture = loadTexture("Image/playerBullet.png");
@@ -43,6 +45,7 @@ void initStage() // khởi tạo game
     stage.StageRestTimer= FPS * 3;
     BulletEnemyAnimation = new Animation("animation/bulletEnemy.png", app.renderer, 3, 16 ,16 ,3, 50, true);
     CoinsAnimation = new Animation("animation/CoinsAnimation.png", app.renderer, 8, 31, 32, 1, 50, true);
+    highscore = HighScore_Manager->getMaxScore() ;
 }
 // reset game và thiết lập lại các giá trị ban đầu
 void Stage::reset()
